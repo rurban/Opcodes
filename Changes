@@ -1,6 +1,10 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.03	2010-04-04 rurban
+	* removed realclan => Makefile.PL left-over from Opcode in CORE.
+	Thanks to Sisyphus <sisyphus1@optusnet.com.au>.
+
 0.02	2010-01-24 rurban
 	* better test and pod
 

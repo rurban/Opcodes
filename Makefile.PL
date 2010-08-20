@@ -9,5 +9,4 @@ WriteMakefile(
     SIGN          => 1,
     AUTHOR        => 'Reini Urban',
     LICENSE       => 'perl',
-    realclean     => {FILES => 'Makefile.PL'},
 );
