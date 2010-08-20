@@ -6,7 +6,11 @@ META.yml
 lib/Opcodes.pm
 Opcodes.xs
 ppport.h
+README
+SIGNATURE                                Public-key signature (added by MakeMaker)
 t/Opcodes.t
+t/z_kwalitee.t
+t/z_meta.t
+t/z_perl_minimum_version.t 
 t/z_pod.t
 t/z_pod-coverage.t
-SIGNATURE                                Public-key signature (added by MakeMaker)

@@ -1,10 +1,12 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.06	2010-08-20 rurban
+	* added README (now really)
+	* added t/z_kwalitee.t, t/z_meta.t, t/z_perl_minimum_version.t
+
 0.05	2010-08-20 rurban
 	* added to github: http://github.com/rurban/Opcodes
-	* added README
-	* added t/z_kwalitee.t, t/z_meta.t, t/z_perl_minimum_version.t
 
 0.04	2010-08-11 rurban
 	* added maybranch for Jit: subst substcont defined formline grepstart grepwhile
