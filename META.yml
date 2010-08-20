@@ -1,9 +1,9 @@
 --- #YAML:1.0
-name:               Opcode
-version:            2.01
-abstract:           Opcode info and restricted sets for Safe
+name:               Opcodes
+version:            0.01
+abstract:           Opcodes information from opnames.h and opcode.h
 author:
-    - Malcolm Beattie, Tim Bunce, Reini Urban
+    - Reini Urban
 license:            perl
 distribution_type:  module
 configure_requires:

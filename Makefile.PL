@@ -2,12 +2,12 @@ use strict;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME          => 'Opcode',
-    VERSION_FROM  => 'lib/Opcode.pm',
-    ABSTRACT_FROM => 'lib/Opcode.pm',
+    NAME          => 'Opcodes',
+    VERSION_FROM  => 'lib/Opcodes.pm',
+    ABSTRACT_FROM => 'lib/Opcodes.pm',
     INSTALLDIRS   => 'perl',
     SIGN          => 1,
-    AUTHOR        => 'Malcolm Beattie, Tim Bunce, Reini Urban',
+    AUTHOR        => 'Reini Urban',
     LICENSE       => 'perl',
     realclean     => {FILES => 'Makefile.PL'},
 );

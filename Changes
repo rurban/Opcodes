@@ -1,15 +1,23 @@
 -*- change-log -*-
-Started dual-lifed on CPAN with Opcode-2.00
+Based on CORE Opcode-1.16
 
-2.01	2010-01-08 rurban
-	* Added opflags n 512 no stack
+0.01	2010-01-23 rurban
+	First release as Opcodes-0.01
+	rgs didn't want to add this to core Opcode.
+	removed duplicate code from Opcode and modernized tests.
 
-2.00	2010-01-07 rurban
+2010-01-08 rurban
+	(Opcode 2.01)
+	* Added opflags n 512 no stack, 
+
+2010-01-07 rurban
+	(Opcode 2.00)
 	* cpanified, added quality tests. Backported to 5.6. 
 	Dig around the history for Changes and LICENSE.
 	* added opname2code
 
-1.17	2010-01-07 rurban
+2010-01-07 rurban
+	(Opcode 1.17)
 	* in blead post-5.11.3: added opcodes() and properties
 
 Earlier see L<perldelta.pod>
