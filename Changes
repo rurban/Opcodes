@@ -1,9 +1,14 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.05	2010-08-20 rurban
+	* added to github: http://github.com/rurban/Opcodes
+	* added README
+	* added t/z_kwalitee.t, t/z_meta.t, t/z_perl_minimum_version.t
+
 0.04	2010-08-11 rurban
-	* added maybranch for Jit: subst substcont defined formline grepstart grepwhile 
-	  mapwhile and or dor cond_expr andassign orassign dorassign dbstate return 
+	* added maybranch for Jit: subst substcont defined formline grepstart grepwhile
+	  mapwhile and or dor cond_expr andassign orassign dorassign dbstate return
 	  last next redo dump goto enterwhen require entereval entertry once
 
 0.03	2010-04-04 rurban

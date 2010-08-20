@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.04";
+$VERSION = "0.05";
 
 use Carp;
 use Exporter ();
@@ -322,6 +322,9 @@ Note that not all OP classes which have op->op_other, op->op_first or op->op_las
 L<Opcode> -- The Perl CORE Opcode module for handling sets of Opcodes used by L<Safe>.
 
 L<Safe> -- Opcode and namespace limited execution compartments
+
+L<B::CC> -- The optimizing perl compiler uses this module. L<Jit> also,
+            but only the static information
 
 =head1 AUTHOR
 
