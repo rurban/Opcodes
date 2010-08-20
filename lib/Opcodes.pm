@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.01";
+$VERSION = "0.02";
 
 use Carp;
 use Exporter ();
@@ -107,8 +107,7 @@ sub opname2code {
 }
 
 1;
-
-__DATA__
+__END__
 
 =head1 NAME
 
@@ -116,7 +115,7 @@ Opcodes - Opcodes information from opnames.h and opcode.h
 
 =head1 SYNOPSIS
 
-  use Opcode qw(opname2code opaliases);
+  use Opcodes;
   print "Empty opcodes are null and ",
     join ",", map {opname $_}, opaliases(opname2code('null'));
 
@@ -130,7 +129,7 @@ source distribution (and installed into the perl library).
 
 Each operator has both a terse name (its opname) and a more verbose or
 recognisable descriptive name. The opdesc function can be used to
-return a list of descriptions for a list of operators.
+return a the description for an OP.
 
 =over 8
 
@@ -150,6 +149,7 @@ The opcode information functions all take the integer code, 0..MAX0.
 =head1 Opcode Information
 
 Retrieve information of the Opcodes. All are available for export by the package.
+Functions names starting with "op" are automatically exported.
 
 =over 8
 
@@ -271,9 +271,9 @@ L<Opcode> -- The Perl CORE Opcode module for sets of Opcodes, used by L<Safe>.
 
 L<Safe> -- Opcode and namespace limited execution compartments
 
-=head1 AUTHORS
+=head1 AUTHOR
 
-Reini Urban.
+Reini Urban C<rurban@cpan.org> 2010
 
 =cut
 

@@ -1,6 +1,9 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.02	2010-01-24 rurban
+	* better test and pod
+
 0.01	2010-01-23 rurban
 	First release as Opcodes-0.01
 	rgs didn't want to add this to core Opcode.
