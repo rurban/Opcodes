@@ -1,0 +1,15 @@
+Changes
+LICENSE
+Makefile.PL
+MANIFEST
+META.yml
+lib/Opcode.pm
+lib/ops.pm
+Opcode.xs
+ppport.h
+SIGNATURE
+t/Opcode.t
+t/ops.t
+t/z_pod.t
+t/z_pod-coverage.t
+t/z_kwalitee.t

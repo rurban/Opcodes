@@ -1,0 +1,25 @@
+-*- change-log -*-
+Started dual-lifed on CPAN with Opcode-2.00
+
+2.01	2010-01-08 rurban
+	* Added opflags n 512 no stack
+
+2.00	2010-01-07 rurban
+	* cpanified, added quality tests. Backported to 5.6. 
+	Dig around the history for Changes and LICENSE.
+	* added opname2code
+
+1.17	2010-01-07 rurban
+	* in blead post-5.11.3: added opcodes() and properties
+
+Earlier see L<perldelta.pod>
+
+Split from Safe with 2ded1cc127f8ba301 "New Opcode extension subsumes Safe" 
+	1996-06-18 02:18:18
+	and 6badd1a5d1be4008f79fa "Add Opcode extension"
+	1996-06-18 02:12:05
+	by Tim Bunce
+	
+Added to Perl with cb1a09d0194fed9b9 "patch.2b1g to perl5.002beta1" 
+	1995-12-21 00:01:16
+	by Malcom Beattie
