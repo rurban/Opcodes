@@ -9,5 +9,4 @@ ppport.h
 t/Opcodes.t
 t/z_pod.t
 t/z_pod-coverage.t
-t/z_kwalitee.t
 SIGNATURE                                Public-key signature (added by MakeMaker)

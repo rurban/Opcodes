@@ -14,22 +14,21 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 bdc68cc0a1e87b5c51ceb8adca75055c17383cae Changes
+SHA1 ce91cebbf43fab36fea2ffad6f17749fd7d03492 Changes
 SHA1 cf78eb481ed8b04f9e9a01ae9cb4014ad30c79f4 LICENSE
-SHA1 b4f1a9bfd71c755c6be07071c65937f534a89e67 MANIFEST
-SHA1 44b0f0177a0452ea96882f76c45e08c1ed20df3f META.yml
+SHA1 f73f664fc5aba95ea72b5b23fd31c68aebcbc283 MANIFEST
+SHA1 d08598e3033e4b525e54409d7da9448f79d76be4 META.yml
 SHA1 371ed2b2fa18a6d99fa281d960450f1065ff5ac3 Makefile.PL
 SHA1 c8decd6f70b24e71eba93c1db69deddd4b687e6a Opcodes.xs
-SHA1 66bf9559c08327cfef9bc343a98729faaf3f9cd9 lib/Opcodes.pm
+SHA1 22cf2e7a581beb4118c1f5a809dab624d16fc31c lib/Opcodes.pm
 SHA1 51702fb498aaa4b9f82c5bcb7dfe6c4836c4db59 ppport.h
-SHA1 c05c937ccbb89fcbd96ad99f1d1e70ad2edb7b50 t/Opcodes.t
-SHA1 9ade2293d6e5ea77d94532132c89cd205ea85ed7 t/z_kwalitee.t
+SHA1 5b843fe119b2d74959b9557f6bf8debfb07a2bdc t/Opcodes.t
 SHA1 3d61bdd9ab988b45542b5dfb62ee0f448787f58b t/z_pod-coverage.t
 SHA1 c8aa3903d3aba84c19bbd94d677620c758fa07d5 t/z_pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.9 (Cygwin)
 
-iEYEARECAAYFAku4bGQACgkQ7YMwHlv2uoqn1ACgpxj3Rt9CPxdib3fDqIiFRNhI
-3IAAoO/1J+UoU7Ku3FzqIjkgh4GZ+YIY
-=hKNt
+iEYEARECAAYFAkxigNYACgkQ7YMwHlv2uoo1EgCgnBwjPMhmlY5ShuJErfWRu+jK
+u48AoI8dpuEbovTxgRLfhCkuQvH1O/hO
+=Blpt
 -----END PGP SIGNATURE-----

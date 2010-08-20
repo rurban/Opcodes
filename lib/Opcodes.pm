@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.03";
+$VERSION = "0.04";
 
 use Carp;
 use Exporter ();
@@ -18,7 +18,7 @@ BEGIN {
       qw(opcodes opname opname2code opflags opaliases
 	 opargs opclass opdesc opname
 	);
-    @EXPORT_OK = qw(ppaddr check argnum);
+    @EXPORT_OK = qw(ppaddr check argnum maybranch);
 }
 use subs @EXPORT_OK;
 
@@ -26,23 +26,23 @@ XSLoader::load 'Opcodes', $VERSION;
 
 our @opcodes = opcodes();
 
-sub opname {
+sub opname ($) {
     $opcodes[ $_[0] ]->[1];
 }
 
-sub ppaddr {
+sub ppaddr ($) {
     $opcodes[ $_[0] ]->[2];
 }
 
-sub check {
+sub check ($) {
     $opcodes[ $_[0] ]->[3];
 }
 
-sub opdesc {
+sub opdesc ($) {
     Opcode::opdesc( opname( $_[0] ));
 }
 
-sub opargs {
+sub opargs ($) {
     $opcodes[ $_[0] ]->[4];
 }
 
@@ -62,8 +62,18 @@ our %retval_array = map{$_=>1}qw[];
 our %retval_void = map{$_=>1}qw[];
 # F fixed retval type (S, A or V)
 our %retval_fixed = map{$_=>1}qw[];
+# N  pp_* may return other than op_next
+our %maybranch = map{$_=>1}
+  # LOGOP's which return op_other
+  qw[once and cond_expr or defined grepwhile],
+  # other OPs
+  qw[substcont formline grepstart mapwhile flip dbstate goto leaveeval
+     enterwhen break padhv
+     subst entersub
+     return last next redo require entereval entertry continue
+    ];
 
-sub opflags {
+sub opflags ($) {
     # 0x1ff = 9 bits OCSHIFT
     my $flags =  opargs($_[0]) & 0x1ff;
     # now the extras
@@ -72,24 +82,26 @@ sub opflags {
     $flags += 1024 if $retval_scalar{$opname} or $flags & 20; # 4|16
     $flags += 2048 if $retval_array{$opname};
     $flags += 4096 if $retval_void{$opname};
+    $flags += 8192 if $retval_fixed{$opname};
+    $flags += 16384 if maybranch($_[0]);
     return $flags;
 }
 
 # See F<opcode.pl> for $OASHIFT and $OCSHIFT. For flags n 512 we
 # would have to change that.
-sub opclass {
+sub opclass ($) {
     my $OCSHIFT = 9; # 1e00 = 13-9=4 bits left-shifted by 9
     (opargs($_[0]) & 0x1e00) >> $OCSHIFT;
 }
 
-sub argnum {
+sub argnum ($) {
     #my $ARGSHIFT = 4;
     my $OASHIFT = 13;
     #my $ARGBITS = 32; # ffffe000 = 32-13 bits left-shifted by 13
     (opargs($_[0]) & 0xffffe000) >> $OASHIFT;
 }
 
-sub opaliases {
+sub opaliases ($) {
     my $op = shift;
     my @aliases = ();
     my $ppaddr = ppaddr($op);
@@ -100,24 +112,52 @@ sub opaliases {
     @aliases;
 }
 
-sub opname2code {
+sub opname2code ($) {
     my $name = shift;
     for (0..$#opcodes) { return $_ if opname($_) eq $name; }
     return undef;
 }
+
+# All LOGOPs: perl -Mblib -MOpcodes -e'$,=q( );print map {opname $_} grep {opclass($_) == 3} 1..opcodes' =>
+#   regcomp substcont grepwhile mapwhile range and or dor cond_expr andassign orassign dorassign entergiven
+#   enterwhen entertry once
+# All pp which can return other then op_next (inspected pp*.c):
+#   once and cond_expr or defined grepwhile
+#   substcont formline grepstart mapwhile flip dbstate goto leaveeval enterwhen break padhv subst entersub
+#   return last next redo require entereval entertry continue
+# + aliases: maybranch  perl -MOpcodes -e'$,=q( );print map {opname $_} grep {opflags($_) & 16384} 1..opcodes'
+# => subst substcont defined formline grepstart grepwhile mapwhile and or dor cond_expr andassign orassign 
+#    dorassign dbstate return last next redo dump goto enterwhen require entereval entertry once
+sub maybranch ($) {
+    return undef if opclass($_[0]) <= 2;	# NOT if lower than LOGOP
+    my $opname = opname($_[0]);
+    return 1 if $maybranch{$opname};
+    for (opaliases($_[0])) {
+        return 1 if $maybranch{opname($_)};
+    }
+    return undef;
+}
+
 
 1;
 __END__
 
 =head1 NAME
 
-Opcodes - Opcodes information from opnames.h and opcode.h
+Opcodes - More Opcodes information from opnames.h and opcode.h
 
 =head1 SYNOPSIS
 
   use Opcodes;
   print "Empty opcodes are null and ",
     join ",", map {opname $_}, opaliases(opname2code('null'));
+
+  # All LOGOPs
+  perl -MOpcodes -e'$,=q( );print map {opname $_} grep {opclass($_) == 2} 1..opcodes'
+
+  # Ops which can return other than op->next
+  perl -MOpcodes -e'$,=q( );print map {opname $_} grep {Opcodes::maybranch $_} 1..opcodes'
+
 
 =head1 DESCRIPTION
 
@@ -141,7 +181,9 @@ like gv2cv, i_ncmp and ftsvtx.
 
 =item an OP opcode
 
-The opcode information functions all take the integer code, 0..MAX0.
+The opcode information functions all take the integer code, 0..MAX0,
+MAXO being accessed by scalar @opcodes, the length of
+the opcodes array.
 
 =back
 
@@ -177,7 +219,7 @@ Returns the address of the check function.
 
 =item opdesc (OP)
 
-Returns the description of the OP.
+Returns the string description of the OP.
 
 =item opargs (OP)
 
@@ -245,13 +287,14 @@ Returns op flags as number according to the following table:
 plus not from F<opcode.pl>:
 
     'n' => 512,		# nothing on the stack, no args and return
+    'N' => 16384 	# may return other than PL_op->op_next, maybranch
 
 These not yet:
 
-    'S' => 1024 	# retval may be scalar
-    'A' => 2048 	# retval may be array
-    'V' => 4096 	# retval may be void
-    'F' => 8192 	# fixed retval type, either S or A or V
+    'S' =>  1024 	# retval may be scalar
+    'A' =>  2048 	# retval may be array
+    'V' =>  4096 	# retval may be void
+    'F' =>  8192 	# fixed retval type, either S or A or V
 
 =item opaliases (OP)
 
@@ -263,11 +306,20 @@ with the same ppaddr.
 Does a reverse lookup in the opcodes list to get the opcode for the given
 name.
 
+=item maybranch (OP)
+
+Returns if the OP function may return not op->op_next.
+
+Note that not all OP classes which have op->op_other, op->op_first or op->op_last
+(higher then UNOP) are actually returning an other next op than op->op_next.
+
+  opflags(OP) & 16384
+
 =back
 
 =head1 SEE ALSO
 
-L<Opcode> -- The Perl CORE Opcode module for sets of Opcodes, used by L<Safe>.
+L<Opcode> -- The Perl CORE Opcode module for handling sets of Opcodes used by L<Safe>.
 
 L<Safe> -- Opcode and namespace limited execution compartments
 

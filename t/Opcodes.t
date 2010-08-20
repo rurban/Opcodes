@@ -6,7 +6,7 @@ use Opcodes;
 use Opcode qw(opset_to_ops full_opset);
 use strict;
 
-plan( tests => 16 );
+plan( tests => 17 );
 
 # --- ensure all matching Opcode
 
@@ -57,6 +57,9 @@ ok $bless == opname2code('bless'), "opname2code";
 ok Opcodes::opclass($bless) == 4, "bless: listop 4 @";
 ok ((opflags($bless) & 511) == 4, "bless: flags 4(s) in ".opflags($bless));
 ok Opcodes::argnum($bless) == 145, "bless: S S? 145";
+
+# check if return maybranch
+ok Opcodes::maybranch(opname2code('return')), "return: maybranch";
 
 # --- finally, check some opname assertions
 
