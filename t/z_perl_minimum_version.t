@@ -22,9 +22,9 @@ unless (-d '.git' || $ENV{IS_MAINTAINER}) {
 foreach my $MODULE ( @MODULES ) {
   eval "use $MODULE";
   if ( $@ ) {
-    (-d '.git' || $ENV{IS_MAINTAINER})
-    ? die( "Failed to load required release-testing module $MODULE" )
-      : plan( skip_all => "$MODULE not available for testing" );
+    plan( skip_all => "$MODULE not available for testing" );
+    die "Failed to load required release-testing module $MODULE"
+      if -d '.git' || $ENV{IS_MAINTAINER};
   }
 }
 
