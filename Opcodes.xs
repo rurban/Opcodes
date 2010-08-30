@@ -4,10 +4,13 @@
 #include "XSUB.h"
 
 #include "ppport.h"
+#include "const-c.inc"
 
 MODULE = Opcodes	PACKAGE = Opcodes
 
-PROTOTYPES: ENABLE
+PROTOTYPES: DISABLE
+
+INCLUDE: const-xs.inc
 
 void
 opcodes()

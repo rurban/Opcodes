@@ -5,9 +5,10 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.06";
+$VERSION = "0.07";
 
 use Carp;
+use AutoLoader;
 use Exporter ();
 use XSLoader ();
 use Opcode ();
@@ -17,10 +18,63 @@ BEGIN {
     @EXPORT =
       qw(opcodes opname opname2code opflags opaliases
 	 opargs opclass opdesc opname
+	 OA_MARK
+	 OA_FOLDCONST
+	 OA_RETSCALAR
+	 OA_TARGET
+	 OA_RETINTEGER
+	 OA_OTHERINT
+	 OA_DANGEROUS
+	 OA_DEFGV
+	 OA_TARGLEX
+	 OA_CLASS_MASK
+	 OA_BASEOP
+	 OA_UNOP
+	 OA_BINOP
+	 OA_LOGOP
+	 OA_LISTOP
+	 OA_PMOP
+	 OA_SVOP
+	 OA_PADOP
+	 OA_PVOP_OR_SVOP
+	 OA_LOOP
+	 OA_COP
+	 OA_BASEOP_OR_UNOP
+	 OA_FILESTATOP
+	 OA_LOOPEXOP
+	 OA_SCALAR
+	 OA_LIST
+	 OA_AVREF
+	 OA_HVREF
+	 OA_CVREF
+	 OA_FILEREF
+	 OA_SCALARREF
+	 OA_OPTIONAL
 	);
     @EXPORT_OK = qw(ppaddr check argnum maybranch);
 }
 use subs @EXPORT_OK;
+
+sub AUTOLOAD {
+    # 'autoload' constants from the constant() XS function.
+    my $constname;
+    our $AUTOLOAD;
+    ($constname = $AUTOLOAD) =~ s/.*:://;
+    croak "&Opcodes::constant not defined" if $constname eq 'constant';
+    my ($error, $val) = constant($constname);
+    if ($error) { croak $error; }
+    {
+        no strict 'refs';
+        # Fixed between 5.005_53 and 5.005_61
+	#if ($] >= 5.00561) {
+	#    *$AUTOLOAD = sub () { $val };
+	#}
+	#else {
+            *$AUTOLOAD = sub { $val };
+	#}
+    }
+    goto &$AUTOLOAD;
+}
 
 XSLoader::load 'Opcodes', $VERSION;
 
@@ -75,10 +129,13 @@ our %maybranch = map{$_=>1}
 
 sub opflags ($) {
     # 0x1ff = 9 bits OCSHIFT
-    my $flags =  opargs($_[0]) & 0x1ff;
+    my $OCSHIFT = constant('OCSHIFT'); 	# 9
+    my $mask = (2 ** $OCSHIFT) - 1;
+    my $flags =  opargs($_[0]) & $mask; # & 0x1ff
     # now the extras
     my $opname = opname($_[0]);
-    $flags += 512 if $no_stack{$opname};
+    #$flags += 16  if $retint{$opname};
+    $flags += 512  if $no_stack{$opname};
     $flags += 1024 if $retval_scalar{$opname} or $flags & 20; # 4|16
     $flags += 2048 if $retval_array{$opname};
     $flags += 4096 if $retval_void{$opname};
@@ -90,15 +147,19 @@ sub opflags ($) {
 # See F<opcode.pl> for $OASHIFT and $OCSHIFT. For flags n 512 we
 # would have to change that.
 sub opclass ($) {
-    my $OCSHIFT = 9; # 1e00 = 13-9=4 bits left-shifted by 9
-    (opargs($_[0]) & 0x1e00) >> $OCSHIFT;
+    my $OCSHIFT = constant('OCSHIFT'); 	# 9
+    my $OASHIFT = constant('OASHIFT');	# 13
+    my $mask = (2 ** ($OASHIFT-$OCSHIFT)) - 1; # 0b1111 4bit 13-9=4 bits
+    $mask = $mask << $OCSHIFT;		# 1e00: 4bit left-shifted by 9
+    (opargs($_[0]) & $mask) >> $OCSHIFT;
 }
 
 sub argnum ($) {
     #my $ARGSHIFT = 4;
-    my $OASHIFT = 13;
-    #my $ARGBITS = 32; # ffffe000 = 32-13 bits left-shifted by 13
-    (opargs($_[0]) & 0xffffe000) >> $OASHIFT;
+    #my $ARGBITS = 32;
+    my $OASHIFT = constant('OASHIFT'); # 13
+    my $mask = ((2 ** (32-$OASHIFT)) - 1) << $OASHIFT; # ffffe000 = 32-13 bits left-shifted by 13
+    (opargs($_[0]) & $mask) >> $OASHIFT;
 }
 
 sub opaliases ($) {
@@ -295,6 +356,10 @@ These not yet:
     'A' =>  2048 	# retval may be array
     'V' =>  4096 	# retval may be void
     'F' =>  8192 	# fixed retval type, either S or A or V
+
+=item OA_* constants
+
+All OA_ flag, class and argnum constants from F<op.h> are exported.
 
 =item opaliases (OP)
 

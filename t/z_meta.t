@@ -16,11 +16,10 @@ plan skip_all => 'This test is only run for the module author'
     unless -d '.git' || $ENV{IS_MAINTAINER};
 
 # Load the testing module
-eval { require $MODULE; Test::CPAN::Meta->import; };
+eval "use $MODULE;";
 if ( $@ ) {
   plan( skip_all => "$MODULE not available for testing" );
-  die "Failed to load required release-testing module $MODULE" 
+  die "Failed to load required release-testing module $MODULE 0.12"
     if -d '.git' || $ENV{IS_MAINTAINER};
 }
-
 meta_yaml_ok();

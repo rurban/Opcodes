@@ -1,6 +1,51 @@
 use strict;
 use ExtUtils::MakeMaker;
 
+if  (eval {require ExtUtils::Constant; 1}) {
+  my @names =
+    (qw(
+	OASHIFT
+	OCSHIFT
+	OA_MARK
+	OA_FOLDCONST
+	OA_RETSCALAR
+	OA_TARGET
+	OA_RETINTEGER
+	OA_OTHERINT
+	OA_DANGEROUS
+	OA_DEFGV
+	OA_TARGLEX
+	OA_CLASS_MASK
+	OA_BASEOP
+	OA_UNOP
+	OA_BINOP
+	OA_LOGOP
+	OA_LISTOP
+	OA_PMOP
+	OA_SVOP
+	OA_PADOP
+	OA_PVOP_OR_SVOP
+	OA_LOOP
+	OA_COP
+	OA_BASEOP_OR_UNOP
+	OA_FILESTATOP
+	OA_LOOPEXOP
+	OA_SCALAR
+	OA_LIST
+	OA_AVREF
+	OA_HVREF
+	OA_CVREF
+	OA_FILEREF
+	OA_SCALARREF
+	OA_OPTIONAL
+       ));
+  ExtUtils::Constant::WriteConstants
+      (NAME         => 'Opcodes',
+       NAMES        => \@names,
+       DEFAULT_TYPE => 'IV',
+      );
+}
+
 WriteMakefile(
     NAME          => 'Opcodes',
     VERSION_FROM  => 'lib/Opcodes.pm',

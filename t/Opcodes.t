@@ -6,7 +6,7 @@ use Opcodes;
 use Opcode qw(opset_to_ops full_opset);
 use strict;
 
-plan( tests => 17 );
+plan( tests => 18 );
 
 # --- ensure all matching Opcode
 
@@ -54,6 +54,7 @@ SKIP: {
 my $bless;
 for (0..@full_l1) { if (opname($_) eq 'bless') { $bless = $_; last } }
 ok $bless == opname2code('bless'), "opname2code";
+ok ((opargs($bless) & OA_LISTOP) == OA_LISTOP, "bless: OA_LISTOP");
 ok Opcodes::opclass($bless) == 4, "bless: listop 4 @";
 ok ((opflags($bless) & 511) == 4, "bless: flags 4(s) in ".opflags($bless));
 ok Opcodes::argnum($bless) == 145, "bless: S S? 145";
