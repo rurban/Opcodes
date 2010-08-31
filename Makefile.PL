@@ -6,6 +6,8 @@ if  (eval {require ExtUtils::Constant; 1}) {
     (qw(
 	OASHIFT
 	OCSHIFT
+	OA_CLASS_MASK
+
 	OA_MARK
 	OA_FOLDCONST
 	OA_RETSCALAR
@@ -15,7 +17,7 @@ if  (eval {require ExtUtils::Constant; 1}) {
 	OA_DANGEROUS
 	OA_DEFGV
 	OA_TARGLEX
-	OA_CLASS_MASK
+
 	OA_BASEOP
 	OA_UNOP
 	OA_BINOP
@@ -30,6 +32,7 @@ if  (eval {require ExtUtils::Constant; 1}) {
 	OA_BASEOP_OR_UNOP
 	OA_FILESTATOP
 	OA_LOOPEXOP
+
 	OA_SCALAR
 	OA_LIST
 	OA_AVREF
@@ -38,6 +41,13 @@ if  (eval {require ExtUtils::Constant; 1}) {
 	OA_FILEREF
 	OA_SCALARREF
 	OA_OPTIONAL
+
+        OA_NOSTACK
+        OA_MAYSCALAR
+        OA_MAYARRAY
+        OA_MAYVOID
+        OA_RETFIXED
+        OA_MAYBRANCH
        ));
   ExtUtils::Constant::WriteConstants
       (NAME         => 'Opcodes',
@@ -65,4 +75,7 @@ WriteMakefile(
      ) : ()),
   );
 
-sub MY::depend { "README : lib/Opcode.pm\n\tpod2text lib/Opcode.pm > README\n"; }
+sub MY::depend { "
+README : lib/Opcodes.pm
+	pod2text lib/Opcodes.pm > README
+"; }

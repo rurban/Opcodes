@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.07";
+$VERSION = "0.08";
 
 use Carp;
 use AutoLoader;
@@ -18,6 +18,7 @@ BEGIN {
     @EXPORT =
       qw(opcodes opname opname2code opflags opaliases
 	 opargs opclass opdesc opname
+	 OA_CLASS_MASK
 	 OA_MARK
 	 OA_FOLDCONST
 	 OA_RETSCALAR
@@ -27,7 +28,7 @@ BEGIN {
 	 OA_DANGEROUS
 	 OA_DEFGV
 	 OA_TARGLEX
-	 OA_CLASS_MASK
+
 	 OA_BASEOP
 	 OA_UNOP
 	 OA_BINOP
@@ -42,6 +43,7 @@ BEGIN {
 	 OA_BASEOP_OR_UNOP
 	 OA_FILESTATOP
 	 OA_LOOPEXOP
+
 	 OA_SCALAR
 	 OA_LIST
 	 OA_AVREF
@@ -50,6 +52,13 @@ BEGIN {
 	 OA_FILEREF
 	 OA_SCALARREF
 	 OA_OPTIONAL
+
+	 OA_NOSTACK
+	 OA_MAYSCALAR
+	 OA_MAYARRAY
+	 OA_MAYVOID
+	 OA_RETFIXED
+	 OA_MAYBRANCH
 	);
     @EXPORT_OK = qw(ppaddr check argnum maybranch);
 }
@@ -65,13 +74,7 @@ sub AUTOLOAD {
     if ($error) { croak $error; }
     {
         no strict 'refs';
-        # Fixed between 5.005_53 and 5.005_61
-	#if ($] >= 5.00561) {
-	#    *$AUTOLOAD = sub () { $val };
-	#}
-	#else {
-            *$AUTOLOAD = sub { $val };
-	#}
+	*$AUTOLOAD = sub { $val };
     }
     goto &$AUTOLOAD;
 }
@@ -158,7 +161,8 @@ sub argnum ($) {
     #my $ARGSHIFT = 4;
     #my $ARGBITS = 32;
     my $OASHIFT = constant('OASHIFT'); # 13
-    my $mask = ((2 ** (32-$OASHIFT)) - 1) << $OASHIFT; # ffffe000 = 32-13 bits left-shifted by 13
+    # ffffe000 = 32-13 bits left-shifted by 13
+    my $mask = ((2 ** (32-$OASHIFT)) - 1) << $OASHIFT;
     (opargs($_[0]) & $mask) >> $OASHIFT;
 }
 
@@ -314,7 +318,8 @@ Example:
 
 =item opclass (OP)
 
-Returns the op class as number according to the following table:
+Returns the op class as number according to the following table
+from F<opcode.pl>:
 
     '0',  0,		# baseop
     '1',  1,		# unop
@@ -333,33 +338,36 @@ Returns the op class as number according to the following table:
 
 =item opflags (OP)
 
-Returns op flags as number according to the following table:
+Returns op flags as number according to the following table
+from F<opcode.pl>. In doubt see your perl source.
+I<Warning: There is currently an attempt to change that, but I posted a fix>
 
-    'm' =>   1,		# needs stack mark
-    'f' =>   2,		# fold constants
-    's' =>   4,		# always produces scalar
-    't' =>   8,		# needs target scalar
-    'T' =>   8 | 256,	# ... which may be lexical
-    'i' =>  16,		# always produces integer
-    'I' =>  32,		# has corresponding int op
-    'd' =>  64,		# danger, unknown side effects
-    'u' => 128,		# defaults to $_
+    'm' =>  OA_MARK,	 	# needs stack mark
+    'f' =>  OA_FOLDCONST,	# fold constants
+    's' =>  OA_RETSCALAR,	# always produces scalar
+    't' =>  OA_TARGET,		# needs target scalar
+    'T' =>  OA_TARGET | OA_TARGLEX,	# ... which may be lexical
+    'i' =>  OA_RETINTEGER,	# always produces integer (this bit is in question)
+    'I' =>  OA_OTHERINT,	# has corresponding int op
+    'd' =>  OA_DANGEROUS,	# danger, unknown side effects
+    'u' =>  OA_DEFGV,		# defaults to $_
 
 plus not from F<opcode.pl>:
 
-    'n' => 512,		# nothing on the stack, no args and return
-    'N' => 16384 	# may return other than PL_op->op_next, maybranch
+    'n' => OA_NOSTACK,		# nothing on the stack, no args and return
+    'N' => OA_MAYBRANCH		# No next. may return other than PL_op->op_next, maybranch
 
 These not yet:
 
-    'S' =>  1024 	# retval may be scalar
-    'A' =>  2048 	# retval may be array
-    'V' =>  4096 	# retval may be void
-    'F' =>  8192 	# fixed retval type, either S or A or V
+    'S' =>  OA_MAYSCALAR 	# retval may be scalar
+    'A' =>  OA_MAYARRAY 	# retval may be array
+    'V' =>  OA_MAYVOID 		# retval may be void
+    'F' =>  OA_RETFIXED 	# fixed retval type, either S or A or V
 
 =item OA_* constants
 
 All OA_ flag, class and argnum constants from F<op.h> are exported.
+Addionally new OA_ flags have been created which are needed for L<B::CC>.
 
 =item opaliases (OP)
 

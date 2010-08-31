@@ -127,6 +127,9 @@ Opcode Information
                 'V' =>  4096        # retval may be void
                 'F' =>  8192        # fixed retval type, either S or A or V
 
+    OA_* constants
+            All OA_ flag, class and argnum constants from op.h are exported.
+
     opaliases (OP)
             Returns the opcodes for the aliased opcode functions for the
             given OP, the ops with the same ppaddr.

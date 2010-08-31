@@ -1,6 +1,10 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.08	2010-08-31 rurban
+	* now that OA_RETINTEGER is in danger move all flags to constants 
+	  (See commit 95ddc6755 and my i_opt branch on github). Add ours also. 
+	
 0.07	2010-08-30 rurban
 	* added OA_ constants. 5.13.5 903fd87c2 introduced a OASHIFT change, 
 	  so get it from op.h instead of hardcoded
