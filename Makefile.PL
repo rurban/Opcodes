@@ -73,6 +73,7 @@ WriteMakefile(
        },
       }
      ) : ()),
+    realclean => {FILES	=> 'const-c.inc const-xs.inc'},
   );
 
 sub MY::depend { "
