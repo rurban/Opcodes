@@ -48,6 +48,7 @@ if  (eval {require ExtUtils::Constant; 1}) {
         OA_MAYVOID
         OA_RETFIXED
         OA_MAYBRANCH
+
        ));
   ExtUtils::Constant::WriteConstants
       (NAME         => 'Opcodes',
@@ -60,7 +61,7 @@ WriteMakefile(
     NAME          => 'Opcodes',
     VERSION_FROM  => 'lib/Opcodes.pm',
     ABSTRACT_FROM => 'lib/Opcodes.pm',
-    INSTALLDIRS   => 'perl',
+    # INSTALLDIRS   => 'perl', #oops
     SIGN          => 1,
     AUTHOR        => 'Reini Urban',
     LICENSE       => 'perl',

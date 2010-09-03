@@ -6,11 +6,12 @@
 #include "ppport.h"
 #include "const-c.inc"
 
-#define OA_NOSTACK 	512
-#define OA_MAYSCALAR    1024
-#define OA_MAYARRAY     2048
-#define OA_MAYVOID      4096
-#define OA_RETFIXED     8192
+/* Private flags added by me for the optimizer, not in CORE */
+#define OA_NOSTACK  	  512
+#define OA_MAYSCALAR     1024
+#define OA_MAYARRAY      2048
+#define OA_MAYVOID       4096
+#define OA_RETFIXED      8192
 #define OA_MAYBRANCH 	16384
 
 MODULE = Opcodes	PACKAGE = Opcodes
