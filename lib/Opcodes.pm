@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.08";
+$VERSION = "0.09";
 
 use Carp;
 use AutoLoader;
@@ -107,9 +107,9 @@ sub opargs ($) {
 # i.e. no args + no return values.
 # 'n' 512 is not encoded in opcode.pl. We could add it but then we would have to
 # maintain it in CORE as well as here. Here its is needed for older perls. So
-# keep it this way.
-our %no_stack = map{$_=>1}qw[null enter unstack leave scope lineseq
-  next redo goto break continue entertry nextstate dbstate pushmark
+# keep it this way. Note that enter,entertry,leave indirectly use the stack.
+our %no_stack = map{$_=>1}qw[null unstack scope lineseq
+  next redo goto break continue nextstate dbstate pushmark
   regcmaybe regcreset];
 # S retval may be scalar. s and i are automatically included
 our %retval_scalar = map{$_=>1}qw[];

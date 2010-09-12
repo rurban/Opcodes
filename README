@@ -85,7 +85,8 @@ Opcode Information
               next 4 bits  1001 => (bit 8+1) 2nd arg is an optional Scalar
 
     opclass (OP)
-            Returns the op class as number according to the following table:
+            Returns the op class as number according to the following table
+            from opcode.pl:
 
                 '0',  0,            # baseop
                 '1',  1,            # unop
@@ -103,32 +104,36 @@ Opcode Information
                 '}',  13,           # loopexop
 
     opflags (OP)
-            Returns op flags as number according to the following table:
+            Returns op flags as number according to the following table from
+            opcode.pl. In doubt see your perl source. *Warning: There is
+            currently an attempt to change that, but I posted a fix*
 
-                'm' =>   1,         # needs stack mark
-                'f' =>   2,         # fold constants
-                's' =>   4,         # always produces scalar
-                't' =>   8,         # needs target scalar
-                'T' =>   8 | 256,   # ... which may be lexical
-                'i' =>  16,         # always produces integer
-                'I' =>  32,         # has corresponding int op
-                'd' =>  64,         # danger, unknown side effects
-                'u' => 128,         # defaults to $_
+                'm' =>  OA_MARK,            # needs stack mark
+                'f' =>  OA_FOLDCONST,       # fold constants
+                's' =>  OA_RETSCALAR,       # always produces scalar
+                't' =>  OA_TARGET,          # needs target scalar
+                'T' =>  OA_TARGET | OA_TARGLEX,     # ... which may be lexical
+                'i' =>  OA_RETINTEGER,      # always produces integer (this bit is in question)
+                'I' =>  OA_OTHERINT,        # has corresponding int op
+                'd' =>  OA_DANGEROUS,       # danger, unknown side effects
+                'u' =>  OA_DEFGV,           # defaults to $_
 
             plus not from opcode.pl:
 
-                'n' => 512,         # nothing on the stack, no args and return
-                'N' => 16384        # may return other than PL_op->op_next, maybranch
+                'n' => OA_NOSTACK,          # nothing on the stack, no args and return
+                'N' => OA_MAYBRANCH         # No next. may return other than PL_op->op_next, maybranch
 
             These not yet:
 
-                'S' =>  1024        # retval may be scalar
-                'A' =>  2048        # retval may be array
-                'V' =>  4096        # retval may be void
-                'F' =>  8192        # fixed retval type, either S or A or V
+                'S' =>  OA_MAYSCALAR        # retval may be scalar
+                'A' =>  OA_MAYARRAY         # retval may be array
+                'V' =>  OA_MAYVOID          # retval may be void
+                'F' =>  OA_RETFIXED         # fixed retval type, either S or A or V
 
     OA_* constants
             All OA_ flag, class and argnum constants from op.h are exported.
+            Addionally new OA_ flags have been created which are needed for
+            B::CC.
 
     opaliases (OP)
             Returns the opcodes for the aliased opcode functions for the

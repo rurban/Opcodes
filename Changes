@@ -1,6 +1,9 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.09	2010-09-12 rurban
+	* removed enter, leave from no_stack. Fixed by Heinz Knutzen in B::CC
+	
 0.08	2010-08-31 rurban
 	* now that OA_RETINTEGER is in danger move all flags to constants 
 	  (See commit 95ddc6755 and my i_opt branch on github). Add ours also. 
