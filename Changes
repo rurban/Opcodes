@@ -1,6 +1,11 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.10	2010-11-27 rurban
+	* maybranch fixes (for Jit): internal LOGOPs, 
+	  added dump, entergiven, range
+	  removed padhv.
+	
 0.09	2010-09-12 rurban
 	* removed enter, leave from no_stack. Fixed by Heinz Knutzen in B::CC
 	

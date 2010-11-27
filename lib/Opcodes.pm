@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.09";
+$VERSION = "0.10";
 
 use Carp;
 use AutoLoader;
@@ -122,12 +122,14 @@ our %retval_fixed = map{$_=>1}qw[];
 # N  pp_* may return other than op_next
 our %maybranch = map{$_=>1}
   # LOGOP's which return op_other
-  qw[once and cond_expr or defined grepwhile],
+  qw[once cond_expr and or orassign andassign dor dorassign grepwhile mapwhile substcont
+     enterwhen entergiven range
+    ],
   # other OPs
-  qw[substcont formline grepstart mapwhile flip dbstate goto leaveeval
-     enterwhen break padhv
+  qw[formline grepstart flip dbstate goto leaveeval
+     break
      subst entersub
-     return last next redo require entereval entertry continue
+     return last next redo require entereval entertry continue dump
     ];
 
 sub opflags ($) {
@@ -188,11 +190,12 @@ sub opname2code ($) {
 #   enterwhen entertry once
 # All pp which can return other then op_next (inspected pp*.c):
 #   once and cond_expr or defined grepwhile
-#   substcont formline grepstart mapwhile flip dbstate goto leaveeval enterwhen break padhv subst entersub
+#   substcont formline grepstart mapwhile range flip dbstate goto leaveeval enterwhen break subst entersub
 #   return last next redo require entereval entertry continue
 # + aliases: maybranch  perl -MOpcodes -e'$,=q( );print map {opname $_} grep {opflags($_) & 16384} 1..opcodes'
-# => subst substcont defined formline grepstart grepwhile mapwhile and or dor cond_expr andassign orassign 
-#    dorassign dbstate return last next redo dump goto enterwhen require entereval entertry once
+# => subst substcont defined formline grepstart grepwhile mapwhile range and or dor cond_expr andassign
+#    orassign dorassign dbstate return last next redo dump goto entergiven enterwhen require entereval
+#    entertry once
 sub maybranch ($) {
     return undef if opclass($_[0]) <= 2;	# NOT if lower than LOGOP
     my $opname = opname($_[0]);
