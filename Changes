@@ -1,6 +1,10 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.11	2011-12-06 rurban
+	* remove Opcode, Carp and AutoLoader, too heavy and not needed.
+	  Loads 4 files and 1162 lines less.
+
 0.10	2010-11-27 rurban
 	* maybranch fixes (for Jit): internal LOGOPs,
 	  added dump, entergiven, range

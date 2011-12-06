@@ -5,13 +5,10 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.10";
+$VERSION = "0.11";
 
-use Carp;
-use AutoLoader;
 use Exporter ();
 use XSLoader ();
-use Opcode ();
 
 BEGIN {
     @ISA = qw(Exporter);
@@ -69,9 +66,9 @@ sub AUTOLOAD {
     my $constname;
     our $AUTOLOAD;
     ($constname = $AUTOLOAD) =~ s/.*:://;
-    croak "&Opcodes::constant not defined" if $constname eq 'constant';
+    die "&Opcodes::constant not defined" if $constname eq 'constant';
     my ($error, $val) = constant($constname);
-    if ($error) { croak $error; }
+    if ($error) { die $error; }
     {
         no strict 'refs';
 	*$AUTOLOAD = sub { $val };
