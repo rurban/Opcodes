@@ -1,6 +1,11 @@
 -*- change-log -*-
 Based on CORE Opcode-1.16
 
+0.12	2013-04-05 rurban
+	* remove outdated SIGNATURE and META files from repo.
+        * fix t/kwalitee.t to use generated MYMETA.yml
+        * Update SIGNATURE with new gpg key
+
 0.11	2011-12-06 rurban
 	* remove Opcode, Carp and AutoLoader, too heavy and not needed.
 	  Loads 4 files and 1162 lines less.
