@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.12";
+$VERSION = "0.13";
 
 use Exporter ();
 use XSLoader ();
@@ -402,6 +402,16 @@ L<B::CC> -- The optimizing perl compiler uses this module. L<Jit> also,
 =head1 AUTHOR
 
 Reini Urban C<rurban@cpan.org> 2010
+
+=head1 LICENSE
+
+Copyright 1995, Malcom Beattie.
+Copyright 1996, Tim Bunce.
+Copyright 2010, Reini Urban
+All rights reserved.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut
 
