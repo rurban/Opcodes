@@ -4,7 +4,7 @@ Based on CORE Opcode-1.16
 0.14	2014-07-16 rurban
         * added .travis.yml and .gitignore
         * replaced README with README.md
-        * added test_cover and test_coverall targets
+        * added test_cover and test_coverall targets (37.9%)
 
 0.13	2013-12-30 rurban
         * added LICENSE head1 to pod, fixes t/z_kwalitee.t
