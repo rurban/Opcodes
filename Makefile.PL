@@ -86,7 +86,8 @@ sub dist {
 
 sub depend { '
 README.md : $(VERSION_FROM)
-	pod2markdown $(VERSION_FROM) > $@
+	pod2markdown $(VERSION_FROM) | \
+	  $(PERL) -pe\'s/png\]\(https:/png\)\](https:/; s/(Travis|Coveralls): \[/\[!\[\1]\(/;\' > $@
 test_cover :: pure_all
 	$(RM_RF) cover_db
 	$(PERLRUNINST) -S cover -test

@@ -403,9 +403,9 @@ L<B::CC> -- The optimizing perl compiler uses this module. L<Jit> also,
 
 CPAN Testers: L<http://cpantesters.org/distro/O/Opcodes>
 
-Travis: L<https://travis-ci.org/rurban/Opcodes.svg|https://travis-ci.org/rurban/Opcodes/>
+Travis: L<https://travis-ci.org/rurban/Opcodes.png|https://travis-ci.org/rurban/Opcodes/>
 
-Coveralls: L<https://coveralls.io/repos/rurban/Opcodes/badge.png?branch=master|https://coveralls.io/r/rurban/Opcodes?branch=master>
+Coveralls: L<https://coveralls.io/repos/rurban/Opcodes/badge.png|https://coveralls.io/r/rurban/Opcodes?branch=master>
 
 =head1 AUTHOR
 

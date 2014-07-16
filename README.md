@@ -188,9 +188,9 @@ Functions names starting with "op" are automatically exported.
 
 CPAN Testers: [http://cpantesters.org/distro/O/Opcodes](http://cpantesters.org/distro/O/Opcodes)
 
-Travis: [https://travis-ci.org/rurban/Opcodes.svg](https://travis-ci.org/rurban/Opcodes/)
+[![Travis](https://travis-ci.org/rurban/Opcodes.png)](https://travis-ci.org/rurban/Opcodes/)
 
-Coveralls: [https://coveralls.io/repos/rurban/Opcodes/badge.png?branch=master](https://coveralls.io/r/rurban/Opcodes?branch=master)
+[![Coveralls](https://coveralls.io/repos/rurban/Opcodes/badge.png)](https://coveralls.io/r/rurban/Opcodes?branch=master)
 
 # AUTHOR
 
