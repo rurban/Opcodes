@@ -61,7 +61,6 @@ WriteMakefile(
     NAME          => 'Opcodes',
     VERSION_FROM  => 'lib/Opcodes.pm',
     ABSTRACT_FROM => 'lib/Opcodes.pm',
-    SIGN          => 1,
     AUTHOR        => 'Reini Urban',
     LICENSE       => 'perl',
     ($ExtUtils::MakeMaker::VERSION gt '6.46' ?
@@ -74,9 +73,23 @@ WriteMakefile(
       }
      ) : ()),
     realclean => {FILES	=> 'const-c.inc const-xs.inc'},
+    SIGN          => 1,
   );
 
-sub MY::depend { "
-README : lib/Opcodes.pm
-	pod2text lib/Opcodes.pm > README
-"; }
+package MY;
+
+sub dist {
+  local $_ = shift->SUPER::dist(@_);
+  s/DIST_DEFAULT = /DIST_DEFAULT = README.md /;
+  return $_;
+}
+
+sub depend { '
+README.md : $(VERSION_FROM)
+	pod2markdown $(VERSION_FROM) > $@
+test_cover :: pure_all
+	$(RM_RF) cover_db
+	$(PERLRUNINST) -S cover -test
+test_coveralls :: pure_all
+	$(PERLRUNINST) -S cover -test -report coveralls
+'; }

@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.13";
+$VERSION = "0.14";
 
 use Exporter ();
 use XSLoader ();
@@ -399,15 +399,23 @@ L<Safe> -- Opcode and namespace limited execution compartments
 L<B::CC> -- The optimizing perl compiler uses this module. L<Jit> also,
             but only the static information
 
+=head1 TEST REPORTS
+
+CPAN Testers: L<http://cpantesters.org/distro/O/Opcodes>
+
+Travis: L<https://travis-ci.org/rurban/Opcodes.svg|https://travis-ci.org/rurban/Opcodes/>
+
+Coveralls: L<https://coveralls.io/repos/rurban/Opcodes/badge.png?branch=master|https://coveralls.io/r/rurban/Opcodes?branch=master>
+
 =head1 AUTHOR
 
-Reini Urban C<rurban@cpan.org> 2010
+Reini Urban C<rurban@cpan.org> 2010, 2014
 
 =head1 LICENSE
 
 Copyright 1995, Malcom Beattie.
 Copyright 1996, Tim Bunce.
-Copyright 2010, Reini Urban
+Copyright 2010, 2014 Reini Urban.
 All rights reserved.
 
 This program is free software; you can redistribute it and/or
