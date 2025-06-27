@@ -74,11 +74,8 @@ WriteMakefile(
         develop => {
           requires => {
             'Pod::Markdown' => 0,
-            'Test::LeakTrace' => 0,
             'Test::CPAN::Meta' => 0,
             'Test::Pod' => 0,
-            'Test::MinimumVersion' => 0,
-            'Perl::MinimumVersion' => 0,
             'Test::Pod::Coverage' => 0,
             'Class::XSAccessor' => 0,
             'Text::CSV_XS' => 0,
@@ -105,6 +102,11 @@ sub depend { '
 README.md : $(VERSION_FROM)
 	pod2markdown $(VERSION_FROM) | \
 	  $(PERL) -pe\'s/png\]\(https:/png\)\](https:/; s/(Travis|Coveralls): \[/\[!\[\1]\(/;\' > $@
+release : dist
+	git tag \$(VERSION)
+	cpan-upload \$(DISTVNAME).tar\$(SUFFIX)
+	git push
+	git push --tags
 test_cover :: pure_all
 	$(RM_RF) cover_db
 	$(PERLRUNINST) -S cover -test

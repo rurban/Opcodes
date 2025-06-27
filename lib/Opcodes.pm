@@ -5,7 +5,7 @@ use strict;
 
 our($VERSION, @ISA, @EXPORT, @EXPORT_OK);
 
-$VERSION = "0.14";
+$VERSION = "0.15";
 
 use Exporter ();
 use XSLoader ();

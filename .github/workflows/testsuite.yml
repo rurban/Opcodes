@@ -26,16 +26,9 @@ jobs:
         with:
           install: |
             Test::LeakTrace
-            Test::CheckManifest
             Test::CPAN::Meta
             Test::Pod
-            Test::MinimumVersion
-            Perl::MinimumVersion
             Test::Pod::Coverage
-            Test::Spelling
-            Pod::Spell::CommonMistakes
-            Test::CPAN::Changes
-            Test::CheckChanges
             Class::XSAccessor
             Text::CSV_XS
             List::MoreUtils
