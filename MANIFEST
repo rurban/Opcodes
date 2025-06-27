@@ -10,6 +10,5 @@ t/Opcodes.t
 .travis.yml
 t/z_kwalitee.t
 t/z_meta.t
-t/z_perl_minimum_version.t 
 t/z_pod.t
 t/z_pod-coverage.t

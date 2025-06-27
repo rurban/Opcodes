@@ -70,6 +70,23 @@ WriteMakefile(
 	 license     => 'http://dev.perl.org/licenses/',
 	 repository  => 'http://github.com/rurban/Opcodes',
        },
+       prereqs => {
+        develop => {
+          requires => {
+            'Pod::Markdown' => 0,
+            'Test::LeakTrace' => 0,
+            'Test::CPAN::Meta' => 0,
+            'Test::Pod' => 0,
+            'Test::MinimumVersion' => 0,
+            'Perl::MinimumVersion' => 0,
+            'Test::Pod::Coverage' => 0,
+            'Class::XSAccessor' => 0,
+            'Text::CSV_XS' => 0,
+            'List::MoreUtils' => 0,
+            'Test::Kwalitee' => 0,
+          }
+        }
+       }
       }
      ) : ()),
     realclean => {FILES	=> 'const-c.inc const-xs.inc'},
