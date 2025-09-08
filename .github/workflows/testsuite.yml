@@ -25,7 +25,6 @@ jobs:
         uses: perl-actions/install-with-cpm@v1.3
         with:
           install: |
-            Test::LeakTrace
             Test::CPAN::Meta
             Test::Pod
             Test::Pod::Coverage
@@ -52,7 +51,7 @@ jobs:
       matrix:
         perl-version:
           [
-            #"5.42",
+            "5.42",
             "5.40",
             "5.38",
             "5.36",
@@ -121,13 +120,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: perl -V
-      - name: install cpan deps
-        uses: perl-actions/install-with-cpm@v1.3
-        with:
-          sudo: false
-          install: |
-            Moose
-            Test::LeakTrace
       - run: perl Makefile.PL
       - run: make test TEST_VERBOSE=1 2>&1 | tee make.log
       - name: Upload make.log

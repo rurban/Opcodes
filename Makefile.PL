@@ -110,11 +110,11 @@ release-test : dist
           echo "You are not on a clean master branch, aborting."; \
           exit 1; \
 	fi
-	if test "$(shell git ls --show-signature -n 1 | head -n2 | tail -n1 | cut -c1-5)" != "gpg:" ; then \
+	if test "$(shell git ls --show-signature -n 1 | head -n2 | tail -n1 | cut -c1-5)" != "gpg: " ; then \
             echo "need git commit with -S"; \
             exit 1; \
 	fi
-	if test "\$(shell git ls --no-show-signature -n 1 | head -n5 | tail -n1 | cut -c5-11)" != "Release" ; then \
+	if test "$(shell git ls --no-show-signature -n 1 | head -n5 | tail -n1 | cut -c5-11)" != "Release" ; then \
             echo "need git commit with -m Release"; \
             exit 1; \
 	fi
@@ -130,11 +130,11 @@ release : dist
           echo "You are not on a clean master branch, aborting."; \
           exit 1; \
 	fi
-	if test "\$(shell git ls --show-signature -n 1 | head -n2 | tail -n1 | cut -c1-5)" != "gpg:" ; then \
+	if test "$(shell git ls --show-signature -n 1 | head -n2 | tail -n1 | cut -c1-5)" != "gpg: " ; then \
             echo "need git commit with -S"; \
             exit 1; \
 	fi
-	if test "\$(shell git ls --no-show-signature -n 1 | head -n5 | tail -n1 | cut -c5-11)" != "Release" ; then \
+	if test "$(shell git ls --no-show-signature -n 1 | head -n5 | tail -n1 | cut -c5-11)" != "Release" ; then \
             echo "need git commit with -m Release"; \
             exit 1; \
 	fi
